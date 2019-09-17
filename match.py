@@ -57,10 +57,9 @@ def _match(little, prefs, little_prefs, rem_pledges):
             if little in little_prefs[big]:
                 little_index = little_prefs[big].index(little)
             if big in matches:
-                # Big has already been matched. Check if big prefers little over other match
-                    
+                # Big has already been matched. Check if big prefers this match over their current pairing
                 old_little = matches[big][0]
-                if little_index < matches[big][1]:
+                if little_index < matches[big][1] or (little_index == matches[big][1] and little == choice([little, old_little])):
                     matched_littles.remove(old_little)
                     rem_pledges.append(old_little)
                     matched_littles.add(little)
@@ -73,6 +72,7 @@ def _match(little, prefs, little_prefs, rem_pledges):
             prefs.remove(big)
     
     # TODO: Pledge has gone through all their preferences and haven't been matched.
+    
     
 if __name__=='__main__':
     # If you don't specify csv file names we assume your big list is "BigListChoices.csv"
@@ -90,11 +90,7 @@ if __name__=='__main__':
     # Make sure all littles have bigs
     if not matches or len(matches) != len(big_prefs):
         print("Error: At least one pledge has not received a match.")
-        sys.exit()
-    
-    # Make sure that of all pairs, littles have the bro who's highest on their list
-    
-    
+        
     # If there's a pairing such that the littles prefer another big and that same big prefers that little, switch up pairings
     
     
